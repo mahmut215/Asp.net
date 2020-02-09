@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Jobs_Offers_Website.Models.ApplyForJob>
+
+@{
+    ViewBag.Title = "Acceptance";
+    Layout = "~/Views/shared/_Mainlayout.cshtml";
+}
+
+<h2>You Accept This User To do Your job </h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.job.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user.UserType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplyDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AcceptDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.job.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user.UserType)
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => item.user.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplyDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcceptDate)
+        </td>
+        
+    </tr>
+}
+
+</table>

@@ -1,0 +1,67 @@
+﻿@model WebApplication1.Models.ApplicationUser
+
+@using WebApplication1.Models;
+
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Details1";
+    Layout = "~/Views/shared/_Mainlayout.cshtml";
+}
+<br />
+<div>
+    
+    <dl class="dl-horizontal">
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            
+            @Html.DisplayFor(model => model.UserName)
+                <br />
+                <br />
+            @if (Request.IsAuthenticated)
+            {
+
+                var db = new ApplicationDbContext();
+                var UserID = User.Identity.GetUserId();
+                var CurrentUser = db.Users.Where(a => a.Id == UserID).SingleOrDefault();
+                if (CurrentUser.UserType == "publisher")
+                {
+                    @Html.ActionLink("Send Message To " + @Html.DisplayFor(model => model.UserName), "Send", new { UserId = Model.Id }, new { @class = "btn btn-primary btn-block" })
+
+                }
+
+                else
+                {
+                    @Html.ActionLink("Send Message To " + @Html.DisplayFor(model => model.UserName), "Send", new { UserId = Model.Id }, new { @class = "btn btn-primary btn-block" })
+                }
+            }
+
+
+                @*<a href="#" class="btn btn-success btn-block">Acceptance</a>
+                <br />
+            
+                @Html.ActionLink("Send Message To " + @Html.DisplayFor(model => model.UserName), "Send", new { UserId = Model.Id }, new { @class = "btn btn-primary btn-block" })
+                <br />
+                <a href="#" class="btn btn-danger btn-block">Refusal</a>
+                <br />
+                @Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-success btn-block" })*@
+            
+    
+        </dd>
+        
+        
+    </dl>
+</div>

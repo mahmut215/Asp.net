@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Jobs_Offers_Website.Models.ApplyForJob>
+
+@using Microsoft.AspNet.Identity
+
+@using WebApplication1.Models;
+
+
+@{
+    ViewBag.Title = "GetJobsByUser";
+    Layout = "~/Views/shared/_Mainlayout.cshtml";
+}
+
+<h2>Get All Jobs You Apply</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Publisher Name
+            @* @Html.DisplayNameFor(model => model.ApplyDate)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.job.JobTitle)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplyDate)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.job.User.UserName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.job.JobTitle)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplyDate)
+        </td>
+        
+        <td>
+            <div>
+
+                @*@Html.ActionLink("Details", "Details1", new { UserId = item.job.UserId }, new { @class = "btn btn-primary" })*@
+                @Html.ActionLink("Send a message", "Details1", new { UserId = item.job.UserId , jobId = item.job.Id}, new { @class = "btn btn-primary btn-block" })
+@if (Request.IsAuthenticated)
+{
+
+    var db = new ApplicationDbContext();
+    var UserID = User.Identity.GetUserId();
+    var CurrentUser = db.Users.Where(a => a.Id == UserID).SingleOrDefault();
+    if (item.State == 0)
+    {
+
+        <p>
+            <strong>
+                You Are Watting Now 
+            </strong>
+        </p>
+
+
+        @*@Html.ActionLink("Acceptance", "Acceptance", new { Id = item.JobId, UserId = item.user.Id }, new { @class = "btn btn-success btn-block" })
+        @Html.ActionLink("Refusal", "Refusal", new { Id = item.JobId, UserId = item.user.Id }, new { @class = "btn btn-danger btn-block" })*@
+
+    }
+    else if (item.State == 1)
+    {
+        <p>
+            <strong>
+                Congratulations!!  You Are accepted
+            </strong>
+        </p>
+    }
+    else if (item.State == -1)
+    {
+        <p>
+            <strong>
+                Sorry you were rejected for this work
+            </strong>
+        </p>
+                                    
+    }
+    else
+    {
+
+    }
+}
+
+               @* <a href="~/Home/Send" class="btn btn-primary btn-block">Send a message</a>*@
+                
+            </div>
+
+        </td>
+    </tr>
+}
+
+</table>

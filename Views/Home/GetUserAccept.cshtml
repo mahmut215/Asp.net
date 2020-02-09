@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Jobs_Offers_Website.Models.JobsViewModel>
+@using Microsoft.AspNet.Identity
+
+<h2> Get All Jobs You Accept Researcher</h2>
+@foreach (var gr in Model)
+{
+    <h3> @gr.JobTitle </h3>
+    
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>
+                Researcher Name
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                Apply Date
+            </th>
+            <th>
+                Accept Date
+            </th>
+        </tr>
+        @foreach (var item in gr.Items)
+        {
+            <tr>
+                <td>
+                    @item.user.UserName
+
+                </td>
+
+                <td>
+                    @item.Message
+                </td>
+                <td>
+                    @item.ApplyDate
+                </td>
+                <td>
+                    @item.AcceptDate
+                </td>
+
+            </tr>
+
+        }
+    </table>
+
+}

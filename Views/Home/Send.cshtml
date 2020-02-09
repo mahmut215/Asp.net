@@ -1,0 +1,86 @@
+﻿@model IEnumerable< Jobs_Offers_Website.Models.Messeges>
+
+@using Microsoft.AspNet.Identity
+
+
+<h2>Send Message </h2>     
+        
+        <hr />
+@if (Request.IsAuthenticated)
+{
+    @Html.AntiForgeryToken()
+    //var db = new ApplicationDbContext();
+    var UserID = User.Identity.GetUserId();
+    //var CurrentUser = db.Users.Where(a => a.Id == UserID).SingleOrDefault();
+
+        <table class="table" style="width:100%">
+            <tr>
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.MessegeTime)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Messege)
+                </th>
+
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MessegeTime)
+                    </td>
+                   
+                    <td>
+                        <dev>
+                            @if (UserID == item.PublisherId)
+                            {
+                                <p class="b">
+                                    <strong>
+                                        You :
+                                       @Html.DisplayFor(modelItem => item.Messege)
+                                    </strong>
+                                </p>
+                            }
+                            else
+                            {
+
+                                @Html.DisplayFor(modelItem => item.Messege)
+                            }
+                            
+                        </dev>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+}
+
+
+@using (Html.BeginForm())
+{
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.Label("Messege", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextArea("Message", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("Messege", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="CREATE" class="btn btn-default" />
+            </div>
+
+        </div>
+
+}

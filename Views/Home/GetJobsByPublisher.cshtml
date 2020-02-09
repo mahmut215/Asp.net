@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Jobs_Offers_Website.Models.JobsViewModel>
+@using Microsoft.AspNet.Identity
+
+@using WebApplication1.Models;
+
+
+    @foreach(var gr in Model)
+    {
+      <h3> @gr.JobTitle </h3>
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>
+                    Researcher Name
+                </th>
+                <th>
+                    Message
+                </th>
+                <th>
+                    Apply Date
+                </th>
+            </tr>
+            @foreach(var item in gr.Items)
+            {
+                <tr>
+                    <td>
+                        @item.user.UserName
+                       
+                    </td>
+                   
+                    <td>
+                        @item.Message
+                    </td>
+                    <td>
+                        @item.ApplyDate
+                    </td>
+                  
+                    <td>
+                        <div>
+                            
+                            @Html.ActionLink("Send A Message", "Details1", new { UserId = item.user.Id },new { @class= "btn btn-primary btn-block" })
+                            @if (Request.IsAuthenticated)
+                            {
+
+                                var db = new ApplicationDbContext();
+                                var UserID = User.Identity.GetUserId();
+                                var CurrentUser = db.Users.Where(a => a.Id == UserID).SingleOrDefault();
+                                if (item.State == 0)
+                                {
+                                    @Html.ActionLink("Acceptance", "Acceptance", new { Id = item.JobId, UserId = item.user.Id }, new { @class = "btn btn-success btn-block" })
+                                    @Html.ActionLink("Refusal", "Refusal", new { Id = item.JobId, UserId = item.user.Id }, new { @class = "btn btn-danger btn-block" })
+                                    
+                                }
+                                else if (item.State == 1)
+                                {
+                                    <p>
+                                        <strong>
+                                            You Accept this User To do your job
+                                        </strong>
+                                    </p>
+                                    @Html.ActionLink("Refusal", "Refusal", new { Id = item.JobId, UserId = item.user.Id }, new { @class = "btn btn-danger btn-block" })
+                                }
+                                else if (item.State == -1)
+                                {
+                                    <p>
+                                        <strong>
+                                            You Refusal this User
+                                        </strong>
+                                    </p>
+                                    @Html.ActionLink("Acceptance", "Acceptance", new { Id = item.JobId, UserId = item.user.Id }, new { @class = "btn btn-success btn-block" })
+                                }
+                                else
+                                {
+
+                                }
+                            }
+
+                                
+                            </div>
+
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+
+    }
